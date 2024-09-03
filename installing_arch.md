@@ -110,3 +110,6 @@ save and exit
 usermod -aG wheel omar
 sudo systemctl enable NetworkManager
 
+sudo pacman -S zathura zathura-pdf-mupdf zathura-ps zathura-djvu zathura-cb
+
+

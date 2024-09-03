@@ -129,3 +129,36 @@ If the drive continues to exhibit problems, it could be a sign of hardware failu
 - ls -R | grep "Coco-nut"
 - locate "Coco-nut"
 - sudo chown -R omar:omar dir/
+
+
+
+
+If you're unable to access a TTY, and your system is failing to start LightDM (or another display manager), you'll need to take steps to regain control of your system. Here’s how you can proceed:
+1. Force a Reboot
+First, you may need to force your system to reboot if it’s stuck. Hold down the power button until the system shuts down, and then power it back on.
+2. Boot into Single-User Mode
+Since you cannot access TTY, you'll need to boot into single-user mode (also known as recovery mode) to bypass the graphical environment:
+    Reboot your system and hold the Shift key to bring up the GRUB menu.
+    When the GRUB menu appears, select the Arch Linux entry and press e to edit the boot parameters.
+    Find the line starting with linux and append the following at the end of the line:
+    bash
+single
+or
+bash
+    1
+    Press Ctrl + X to boot with these parameters.
+This will boot your system into single-user mode with a root shell.
+
+Remove Any Remaining Files Owned by the User
+
+Sometimes, there might be files scattered across the system that are still owned by the removed user. To find and remove them:
+
+bash
+
+sudo find / -uid $(id -u username) -exec rm -rf {} \;
+sudo find . -path './your-personal-dir' -prune -o \! -user your-username -exec rm -rf {} +
+for multiple dirs
+find . \( -path './dir1' -o -path './dir2' -o -path './dir3' \) -prune -o \! -user your-username -print
+
+show errors log
+journalctl -f
