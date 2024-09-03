@@ -124,3 +124,8 @@ If you manage to access the drive, consider backing up important data immediatel
 4. Check for Hardware Issues
 
 If the drive continues to exhibit problems, it could be a sign of hardware failure. Consider running a diagnostic tool on the drive or replacing it if necessary.
+
+- find /home -type d -name "Coco-nut"
+- ls -R | grep "Coco-nut"
+- locate "Coco-nut"
+- sudo chown -R omar:omar dir/
