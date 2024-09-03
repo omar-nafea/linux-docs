@@ -1,0 +1,126 @@
+Download patches to st
+wget https://st.suckless.org/patches/scrollback/st-scrollback-0.8.4.diff
+cd st
+patch -p1 < ../patches/st-scrollback-0.8.4.diff
+# Resolve Any Conflicts (if necessary): If there are any conflicts, you may need to manually edit the source files.
+sudo make clean install
+
+
+startx is a command in Linux used to start the X Window System (also known as X11 or simply X), which is the underlying graphical display server for many Unix-like operating systems, including Linux. When you run startx, it typically launches the X server and then starts your default desktop environment or window manager.
+
+Here's a basic overview of what happens when you use startx:
+
+    X Server Initialization: The X server is started, which handles the display, keyboard, and mouse. It's responsible for drawing windows and managing the graphical interface.
+
+    Launching the Window Manager or Desktop Environment: After the X server starts, startx usually starts a window manager or a full desktop environment like GNOME, KDE, or XFCE. This is defined in the user's .xinitrc file.
+
+    Running User Programs: The .xinitrc file can also contain commands to run user programs that should start with the X session.
+
+    Session Management: The X session continues to run until you close it, typically by logging out, which will then stop the X server and return you to the command line.
+
+startx is commonly used when you don't have a display manager (like gdm, lightdm, or sddm) that automatically starts the graphical interface on boot. Instead, you would boot into a command-line interface, log in, and then run startx to begin your graphical session.
+ 
+
+The .xinitrc file in your home directory is used by startx to know what to start when the X server is launched.
+nano ~/.xinitrc
+Add the following lines to start your chosen window manager or desktop environment:
+exec startxfce4
+Ensure that no other window managers or desktop environments are being started in this file.
+4. Set Up startx to Run X Server
+You may need to install the xorg package group if you haven’t already:
+sudo pacman -S xorg
+This installs the X server and necessary utilities
+
+
+This command lists orphaned packages that were installed as dependencies but are no longer needed. You can safely remove these as well.
+sudo pacman -Rns $(pacman -Qdtq)
+
+GTK3 and GTK4 are versions of the GTK (GIMP Toolkit) library, which is used for creating graphical user interfaces (GUIs) in Linux applications.
+GTK Versions Overview:
+
+    GTK3 (GTK+ 3):
+        Introduced in 2011.
+        Used widely in GNOME 3 and other Linux desktop environments and applications.
+        Offers improved theming capabilities, better support for modern input devices, and more.
+
+    GTK4:
+        Released in 2020.
+        Represents a significant overhaul with new features and optimizations.
+        Provides better performance, improved graphics rendering, and more modern UI elements.
+
+
+
+Sound Control
+
+    PulseAudio: Common sound server.
+        Install: sudo pacman -S pulseaudio pulseaudio-alsa pavucontrol
+        Volume Control: pavucontrol provides a GUI for managing sound devices and volumes.
+        Command-line: amixer or pamixer can be used to control volume from the terminal, e.g., amixer set Master 50%.
+    ALSA: For a more minimal setup, you can use ALSA.
+        Install: sudo pacman -S alsa-utils
+        Volume Control: Use alsamixer for a terminal-based interface.
+
+3. Bluetooth
+
+    Bluetooth Management: blueman or bluetoothctl
+        Install: sudo pacman -S bluez bluez-utils blueman
+        Start Service: sudo systemctl enable --now bluetooth
+        GUI: blueman provides a simple GUI for managing Bluetooth devices.
+        CLI: Use bluetoothctl to manage devices from the terminal.
+
+Wi-Fi and Network
+
+    NetworkManager: Manages network connections.
+        Install: sudo pacman -S networkmanager
+        Start Service: sudo systemctl enable --now NetworkManager
+        GUI: Use nm-applet for a system tray icon to manage networks.
+    CLI: nmcli is the command-line interface to manage network connections.
+
+
+
+For System Tray Icons: Use nm-applet, blueman, and similar tools for quick access.
+For Autostart: Create or edit a .xinitrc file for configurations to be loaded with startx.
+Essential Configurations
+
+    Autostart Applications: Use your .xinitrc file or window manager’s config to autostart applications like nm-applet, blueman, pasystray, etc.
+    Display Settings: Use xrandr to set resolution, orientation, and configure multi-monitor setups.
+    Power Management: Install tlp for power management on laptops, or use xset for screen blanking, e.g., xset s off.
+
+
+Run chkdsk /f on Windows
+
+If you have access to a Windows machine, follow these steps:
+
+    Connect the USB Drive to Windows:
+        Plug in the drive with /dev/sdb1 into a Windows computer.
+
+    Open Command Prompt as Administrator:
+        Press Win + X and select "Command Prompt (Admin)" or "Windows PowerShell (Admin)".
+
+    Run chkdsk:
+        In the command prompt, type:
+
+        cmd
+
+        chkdsk /f X:
+
+        Replace X: with the actual drive letter assigned to the USB drive in Windows.
+        This command will check the drive for errors and attempt to fix them.
+
+    Reboot Windows Twice:
+        After running chkdsk, it's recommended to reboot Windows twice before trying to access the drive again.
+
+2. Force Mount (Use with Caution)
+
+If you still need to access the drive in Linux and understand the risks (potential data loss), you can force mount it:
+
+sh
+
+sudo mount -t ntfs-3g /dev/sdb1 /mnt -o force
+
+3. Backup Important Data
+
+If you manage to access the drive, consider backing up important data immediately to avoid potential data loss in the future.
+4. Check for Hardware Issues
+
+If the drive continues to exhibit problems, it could be a sign of hardware failure. Consider running a diagnostic tool on the drive or replacing it if necessary.
